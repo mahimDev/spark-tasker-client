@@ -28,7 +28,7 @@ const MyTodoList = () => {
     queryKey: ["mineTasks"],
     queryFn: async () => {
       const fetchMyTodos = await axios.get(
-        `${API}/my-todos?email=${user?.email}`
+        `${API}/tasks?email=${user?.email}`
       );
       const result = fetchMyTodos.data;
       const getMineTodos = result.filter((todo) => todo.status === "todo");
@@ -58,7 +58,7 @@ const MyTodoList = () => {
       if (result.isConfirmed) {
         axios
           .delete(
-            `${API}/delete-task/${deleteId}`
+            `${API}/tasks/${deleteId}`
           )
           .then((res) => {
             if (res.data.acknowledged) {
@@ -88,7 +88,7 @@ const MyTodoList = () => {
     enabled: !!updateId,
     queryFn: async () => {
       const updateFetch = await axios.get(
-        `${API}/update-task/${updateId}`
+        `${API}/tasks/${updateId}`
       );
       const result = updateFetch.data;
 
@@ -125,7 +125,7 @@ const MyTodoList = () => {
     console.log(newUpdateTask);
     axios
       .put(
-        `${API}/update-task/${updateTask?._id}`,
+        `${API}/tasks/${updateTask?._id}`,
         newUpdateTask
       )
       .then((res) => {
@@ -191,7 +191,7 @@ const MyTodoList = () => {
     if (result.destination.droppableId === "todoList") {
       axios
         .put(
-          `${API}/update-todo/${result.draggableId}`,
+          `${API}/tasks/${result.draggableId}`,
           { status: "todo" }
         )
         .then((res) => {
@@ -207,7 +207,7 @@ const MyTodoList = () => {
     if (result.destination.droppableId === "ongoing") {
       axios
         .put(
-          `${API}/update-todo/${result.draggableId}`,
+          `${API}/tasks/${result.draggableId}`,
           { status: "ongoing" }
         )
         .then((res) => {
@@ -223,7 +223,7 @@ const MyTodoList = () => {
     if (result.destination.droppableId === "completed") {
       axios
         .put(
-          `${API}/update-todo/${result.draggableId}`,
+          `${API}/tasks/${result.draggableId}`,
           { status: "completed" }
         )
         .then((res) => {
@@ -240,7 +240,7 @@ const MyTodoList = () => {
   return (
     <div>
       <div className="text-center py-3">
-        <h2 className="text-2xl inline-block bg-[#FFDDD2] px-5 font-bold py-2 text-center rounded-xl">
+        <h2 className="text-2xl inline-block bg-[#cac9c982] px-5 font-bold py-2 text-center ">
           My Todo List
         </h2>
       </div>
@@ -256,7 +256,7 @@ const MyTodoList = () => {
                   {...provided.droppableProps}
                 >
                   <h3 className={`text-2xl font-bold text-center`}>
-                    Todo List
+                    To-Do
                   </h3>
                   {mineTodos?.map((task, index) => (
                     <Draggable
@@ -317,7 +317,7 @@ const MyTodoList = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <h3 className="text-2xl font-bold text-center">On Going</h3>
+                  <h3 className="text-2xl font-bold text-center">In Progress</h3>
                   {ongoingTasks?.map((task, index) => (
                     <Draggable
                       key={task?._id}
@@ -376,7 +376,7 @@ const MyTodoList = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <h3 className="text-2xl font-bold text-center">Compeleted</h3>
+                  <h3 className="text-2xl font-bold text-center">Done</h3>
                   {completedTasks?.map((task, index) => (
                     <Draggable
                       key={task?._id}
@@ -479,7 +479,7 @@ const MyTodoList = () => {
             {/* errors will return when field validation fails  */}
             {errors.exampleRequired && <span>This field is required</span>}
             <label className="font-medium" htmlFor="">
-              Priority:
+              Category :
             </label>
             <select
               onChange={handlePriority}
@@ -488,10 +488,10 @@ const MyTodoList = () => {
               name=""
               id=""
             >
-              <option value="">Select a priority</option>
-              <option value="Low">Low</option>
-              <option value="Moderate">Moderate</option>
-              <option value="high">high</option>
+              <option disabled value="">Select </option>
+              <option value="To-Do">To-Do</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Done">Done</option>
             </select>
             <button
               className="w-full bg-[#006D77] text-lg font-semibold text-white btn"

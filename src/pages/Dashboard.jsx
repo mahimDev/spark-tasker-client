@@ -82,14 +82,14 @@ const Dashboard = () => {
             <div className="">
               <NavLink to="my-todos">
                 {({ isActive }) => (
-                  <span className={isActive ? "text-lg font-medium py-2 px-2 text-white bg-[#83C5BE] block rounded-md" : "text-lg font-medium py-2 px-2 text-white bg-transparent"}>My Todo List</span>
+                  <span className={isActive ? "text-lg font-medium py-2 px-2 text-white bg-[#83C5BE] block rounded" : "text-lg font-medium py-2 px-2 text-white bg-transparent"}>My Todo List</span>
                 )}
               </NavLink>
             </div>
             <div className="]">
               <NavLink to="add-a-new-task">
                 {({ isActive }) => (
-                  <span className={isActive ? "text-lg font-medium py-2 px-2 text-white bg-[#83C5BE] block" : "text-lg font-medium py-2 px-2 text-white bg-transparent"}>Add a New Task</span>
+                  <span className={isActive ? "text-lg font-medium py-2 px-2 text-white bg-[#83C5BE] block rounded" : "text-lg font-medium py-2 px-2 text-white bg-transparent"}>Add a New Task</span>
                 )}
               </NavLink>
             </div>

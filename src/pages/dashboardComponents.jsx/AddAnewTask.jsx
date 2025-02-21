@@ -17,15 +17,20 @@ const AddAnewTask = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    if (data.title.length > 50) {
+      toast.error("You can include up to 50 characters.");
+      return
+    }
     if (selectPriority === "") {
-      toast.error("Please select a Priority");
+      toast.error("Please select a category");
       return;
     }
+
     const taskUser = user?.email;
     const status = "todo";
     const newTask = { ...data, selectPriority, status, taskUser };
     axios
-      .post(`${API}/add-tasks`, newTask)
+      .post(`${API}/tasks`, newTask)
       .then((res) => {
         console.log(res.data.acknowledged);
         if (res.data.acknowledged) {
@@ -87,7 +92,7 @@ const AddAnewTask = () => {
         {/* errors will return when field validation fails  */}
         {errors.exampleRequired && <span>This field is required</span>}
         <label className="font-medium" htmlFor="">
-          Priority:
+          Category :
         </label>
         <select
           onChange={handlePriority}
@@ -95,10 +100,10 @@ const AddAnewTask = () => {
           name=""
           id=""
         >
-          <option value="">Select a priority</option>
-          <option value="Low">Low</option>
-          <option value="Moderate">Moderate</option>
-          <option value="high">high</option>
+          <option disabled value="">Select </option>
+          <option value="To-Do">To-Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
         </select>
         <button
           className="w-full bg-[#006D77] text-lg font-semibold text-white btn"
